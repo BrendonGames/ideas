@@ -59,7 +59,7 @@
             overflow-wrap: break-word;
             border-collapse: collapse;
         }
-        
+
         .idea_links {
             padding: 5px;
             border: 5px solid;
@@ -70,16 +70,33 @@
             overflow-wrap: break-word;
             border-collapse: collapse;
         }
-        
+
         .idea_description {
             padding: 5px;
             border: 5px solid;
             border-top-width: 3px;
+            border-bottom-width: 2px;
             text-align: justify;
             text-justify: inter-word;
             overflow-wrap: break-word;
             border-collapse: collapse;
             flex-grow: 1;
+        }
+
+        .idea_image {
+            padding: 5px;
+            border: 5px solid;
+            border-top-width: 3px;
+            /* border-bottom-width: 2px; */
+            text-align: justify;
+            text-justify: inter-word;
+            overflow-wrap: break-word;
+            border-collapse: collapse;
+        }
+
+        .idea_img {
+            max-width: 45%;
+            height: auto;
         }
 
         .top-bar {
@@ -153,7 +170,7 @@
             $ideaTitle = $row['idea_title'];
             $description = $row['description'];
             $links = isset($row['links']) ? json_decode($row['links'], true) : null;
-            $image = isset($row['image']); // Check for image existence
+            $image = isset($row['image']) ? json_decode($row['image'], true) : null;
 
             echo '
             <div class="idea">
@@ -162,16 +179,35 @@
 
             if ($links) {
                 echo '
-                <div class="idea_links">
-                    <a href="' . $links['url'] . '" target="_blank">' . $links['mask'] . '</a>
-                </div>';
+                    <div class="idea_links">
+                    ';
+                foreach ($links['urllist'] as $linkobj) {
+                    echo '
+                        <a href="' . $linkobj['url'] . '" target="_blank">' . $linkobj['mask'] . '</a>
+                    ';
+                }
+                echo '
+                    </div>
+                    ';
             }
 
             echo '
                 <div class="idea_description">' . $description . '</div>';
 
             if ($image) {
-                echo '<div class="idea_image" src="' . $image[''] . '"></div>';
+                echo '
+                    <div class="idea_image">
+                    ';
+                foreach ($image['imglist'] as $imgobj) {
+                    echo '
+                        <a href="' . $imgobj['src'] . '" target="_blank">
+                            <img class="idea_img" src="' . $imgobj['src'] . '" alt="' . $imgobj['alt'] . '">
+                        </a>
+                    ';
+                }
+                echo '
+                    </div>
+                    ';
             }
 
             echo '</div>';
@@ -186,8 +222,6 @@
     $conn->close();
     ?>
 </body>
-
-
 
 <!-- <div class="idea">
     id: ' . $row['idea_id'] . ' - Title: ' . $row['idea_title'] . '<br>' . 'description: ' . $row['description'] .
