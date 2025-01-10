@@ -32,8 +32,10 @@
 
             justify-items: stretch;
             place-content: center;
-            border: 2px solid yellow;
             box-sizing: border-box;
+            
+            /* Debug */
+            /* border: 2px solid yellow; */
         }
 
 
@@ -45,9 +47,11 @@
             text-justify: inter-word;
             overflow-wrap: break-word;
             word-wrap: break-word;
-            border: 2px solid blue;
             height: 100%;
             box-sizing: border-box;
+            
+            /* Debug */
+            /* border: 2px solid blue; */
         }
 
         .idea_title {
@@ -92,10 +96,11 @@
             text-justify: inter-word;
             overflow-wrap: break-word;
             border-collapse: collapse;
+            overflow-y: auto;
         }
 
         .idea_img {
-            max-width: 45%;
+            max-width: 100%;
             height: auto;
         }
 
@@ -167,6 +172,7 @@
         // Output data of each row
         echo '<div class="idea_list">';
         while ($row = $result->fetch_assoc()) {
+            $ideaDate = $row['idea_date'];
             $ideaTitle = $row['idea_title'];
             $description = $row['description'];
             $links = isset($row['links']) ? json_decode($row['links'], true) : null;
@@ -201,8 +207,9 @@
                 foreach ($image['imglist'] as $imgobj) {
                     echo '
                         <a href="' . $imgobj['src'] . '" target="_blank">
-                            <img class="idea_img" src="' . $imgobj['src'] . '" alt="' . $imgobj['alt'] . '">
+                            <img class="idea_img" src="' . $imgobj['src'] . '" alt="' . $imgobj['alt'] . '" title="' . $imgobj['alt'] . '">
                         </a>
+                        <hr>
                     ';
                 }
                 echo '
