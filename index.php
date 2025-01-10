@@ -11,11 +11,6 @@
     </script>
 
     <style>
-        html,
-        body {
-            height: 100%;
-        }
-
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
@@ -27,74 +22,64 @@
             transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
         }
 
-        /* 
-        table,
-        th,
-        tr {
-            min-width: 100%;
-            padding: 5px;
-            border: 5px solid;
-            border-collapse: collapse;
-            text-align: justify;
-            text-justify: inter-word;
-            overflow-wrap: break-word;
-            max-width: fit-content;
-        }
-
-        table {
-            min-height: 100%;
-        }
-
-        .idea_title {
-            text-align: center;
-            height: fit-content;
-        }
-        */
-
         .idea_list {
             display: grid;
             grid-auto-flow: row;
             grid-template-rows: repeat(auto-fit, 475px);
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             grid-auto-rows: 475px;
-            grid-auto-columns: minmax(400px, 1fr); 
-            
+            grid-auto-columns: minmax(400px, 1fr);
+
             justify-items: stretch;
             place-content: center;
             border: 2px solid yellow;
-            justify-items: stretch
+            box-sizing: border-box;
         }
 
 
         .idea {
+            display: flex;
+            flex-direction: column;
             padding: 5px;
             text-align: justify;
             text-justify: inter-word;
             overflow-wrap: break-word;
             word-wrap: break-word;
             border: 2px solid blue;
+            height: 100%;
+            box-sizing: border-box;
         }
 
         .idea_title {
-            min-width: 95%;
             padding: 5px;
             border: 5px solid;
+            border-bottom-width: 2px;
             text-align: center;
             text-justify: inter-word;
             overflow-wrap: break-word;
             border-collapse: collapse;
-            -ms-transform: translateY(5px);
-            transform: translateY(5px);
         }
-
-        .idea_description {
-            min-width: 95%;
+        
+        .idea_links {
             padding: 5px;
             border: 5px solid;
+            border-top-width: 3px;
+            border-bottom-width: 2px;
             text-align: justify;
             text-justify: inter-word;
             overflow-wrap: break-word;
             border-collapse: collapse;
+        }
+        
+        .idea_description {
+            padding: 5px;
+            border: 5px solid;
+            border-top-width: 3px;
+            text-align: justify;
+            text-justify: inter-word;
+            overflow-wrap: break-word;
+            border-collapse: collapse;
+            flex-grow: 1;
         }
 
         .top-bar {
@@ -157,7 +142,6 @@
     if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
     }
-    // echo 'Connected successfully';
 
     $sql = 'SELECT * FROM ideas ORDER BY idea_date DESC';
     $result = $conn->query($sql);
@@ -166,21 +150,37 @@
         // Output data of each row
         echo '<div class="idea_list">';
         while ($row = $result->fetch_assoc()) {
+            $ideaTitle = $row['idea_title'];
+            $description = $row['description'];
+            $links = isset($row['links']) ? json_decode($row['links'], true) : null;
+            $image = isset($row['image']); // Check for image existence
+
             echo '
-                <div class="idea">
-                        <div class="idea_title"> 
-                            ' . $row['idea_title'] . ' 
-                        </div>
-                        <div class="idea_description">
-                            ' . $row['description'] . '
-                        </div>
-                </div>
-            ';
+            <div class="idea">
+                <div class="idea_title">' . $ideaTitle . '</div>
+                ';
+
+            if ($links) {
+                echo '
+                <div class="idea_links">
+                    <a href="' . $links['url'] . '" target="_blank">' . $links['mask'] . '</a>
+                </div>';
+            }
+
+            echo '
+                <div class="idea_description">' . $description . '</div>';
+
+            if ($image) {
+                echo '<div class="idea_image" src="' . $image[''] . '"></div>';
+            }
+
+            echo '</div>';
         }
         echo '</div>';
     } else {
         echo '0 results';
     }
+
 
     // Close connection
     $conn->close();
