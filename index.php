@@ -62,6 +62,7 @@
             text-justify: inter-word;
             overflow-wrap: break-word;
             border-collapse: collapse;
+            text-decoration: underline;
         }
 
         .idea_links {
@@ -172,7 +173,7 @@
         // Output data of each row
         echo '<div class="idea_list">';
         while ($row = $result->fetch_assoc()) {
-            $ideaDate = $row['idea_date'];
+            $ideaDate = date("l d/m/o H:i:s" ,strtotime($row['idea_date']));
             $ideaTitle = $row['idea_title'];
             $description = $row['description'];
             $links = isset($row['links']) ? json_decode($row['links'], true) : null;
@@ -180,7 +181,7 @@
 
             echo '
             <div class="idea">
-                <div class="idea_title">' . $ideaTitle . '</div>
+                <div class="idea_title" title="' . $ideaDate . '">' . $ideaTitle . '</div>
                 ';
 
             if ($links) {
@@ -229,7 +230,3 @@
     $conn->close();
     ?>
 </body>
-
-<!-- <div class="idea">
-    id: ' . $row['idea_id'] . ' - Title: ' . $row['idea_title'] . '<br>' . 'description: ' . $row['description'] .
-</div> -->
