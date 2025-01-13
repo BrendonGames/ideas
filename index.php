@@ -62,7 +62,6 @@
             text-justify: inter-word;
             overflow-wrap: break-word;
             border-collapse: collapse;
-            text-decoration: underline;
         }
 
         .idea_links {
@@ -173,7 +172,8 @@
         // Output data of each row
         echo '<div class="idea_list">';
         while ($row = $result->fetch_assoc()) {
-            $ideaDate = date("l d/m/o H:i:s" ,strtotime($row['idea_date']));
+            $ideaDate = date("l, d/m/o H:i:s" ,strtotime($row['idea_date']));
+            $ideaEditDate = isset($row['idea_edit_date']) ? date("l, d/m/o H:i:s", strtotime($row['idea_edit_date'])) : null;
             $ideaTitle = $row['idea_title'];
             $description = $row['description'];
             $links = isset($row['links']) ? json_decode($row['links'], true) : null;
@@ -199,8 +199,20 @@
             }
 
             echo '
-                <div class="idea_description">' . $description . '</div>';
+                <div class="idea_description">' . $description . '
+                <br><br>
+                Created: ' . $ideaDate . '
+                ';
+            
+                if ($ideaEditDate) {    
+                echo '
+                <br>
+                Edited: ' . $ideaEditDate . '
+                ';
+            }
 
+            echo '</div>';
+            
             if ($image) {
                 echo '
                     <div class="idea_image">
