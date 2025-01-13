@@ -79,7 +79,7 @@
             padding: 5px;
             border: 5px solid;
             border-top-width: 3px;
-            border-bottom-width: 2px;
+            border-bottom-width: 5px;
             text-align: justify;
             text-justify: inter-word;
             overflow-wrap: break-word;
@@ -90,7 +90,7 @@
         .idea_image {
             padding: 5px;
             border: 5px solid;
-            border-top-width: 3px;
+            border-top-width: 0px;
             /* border-bottom-width: 2px; */
             text-align: justify;
             text-justify: inter-word;
