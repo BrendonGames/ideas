@@ -62,6 +62,7 @@
             text-justify: inter-word;
             overflow-wrap: break-word;
             border-collapse: collapse;
+            display: flexbox;
         }
 
         .idea_links {
@@ -102,6 +103,15 @@
         .idea_img {
             max-width: 100%;
             height: auto;
+        }
+
+        .editBtn {
+            
+        }
+
+        .editImg {
+            height: 1.2em;
+            float: right;
         }
 
         .top-bar {
@@ -172,6 +182,7 @@
         // Output data of each row
         echo '<div class="idea_list">';
         while ($row = $result->fetch_assoc()) {
+            $ideaID = $row['idea_id'];
             $ideaDate = date("l, d/m/o H:i:s" ,strtotime($row['idea_date']));
             $ideaEditDate = isset($row['idea_edit_date']) ? date("l, d/m/o H:i:s", strtotime($row['idea_edit_date'])) : null;
             $ideaTitle = $row['idea_title'];
@@ -181,7 +192,11 @@
 
             echo '
             <div class="idea">
-                <div class="idea_title" title="' . $ideaDate . '">' . $ideaTitle . '</div>
+                <div class="idea_title" title="' . $ideaDate . '">' . $ideaTitle . ' 
+                <a title="edit" target="_blank" href="/edit/?id=' . $ideaID . '">
+                    <img class="editImg" src="/assets/editpencil.png">
+                </a>
+                </div>
                 ';
 
             if ($links) {
