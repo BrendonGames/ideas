@@ -2,6 +2,7 @@
 
 <head>
     <title>Edit idea</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;

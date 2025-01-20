@@ -1,0 +1,48 @@
+services:
+    nginx:
+        env_file:
+            - .env
+        restart: always
+        image: nginx
+        volumes:
+          - ./default.conf:/etc/nginx/conf.d/default.conf 
+          - ./ideas:/code # change to where the ideas directory is stored
+        ports:
+            - "80:80" # change to different port when behind a reverse proxy
+        depends_on:
+            - php-ideas
+    
+    php-ideas:
+        build: .
+        env_file:
+            - .env
+        restart: always
+        volumes:
+            - /drives/main/ideas:/code
+
+    mysql:
+        env_file:
+            - .env
+        image: mysql:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: ${dbrootpassword} # see example.env
+            MYSQL_USER: ${dbuser}
+            MYSQL_PASSWORD: ${dbuserpassword}
+        restart: always
+        volumes:
+            - ./mysql:/var/lib/mysql # change to where the database is located
+    
+    phpmyadmin:
+        image: phpmyadmin
+        env_file:
+            - .env
+        environment:
+            PMA_HOST: mysql
+            MYSQL_ROOT_PASSWORD: ${dbrootpassword}
+        ports:
+            - "81:80" # change to different port when behind a reverse proxy (if you'd like)
+        restart: always
+        volumes:
+            - ./phpmyadmin:/etc/phpmyadmin/ # change to where phpmyadmin is stored
+        depends_on:
+            - mysql

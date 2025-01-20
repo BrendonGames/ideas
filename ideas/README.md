@@ -2,7 +2,7 @@
 This is a personal project for me to learn about frontend and backend web development with PHP and MySQL. This site is something I can use for when I get an idea, hence why it's called ideas. I personally host this via docker and protect the site with Authentik, due to no auth being build in (yet). 
 
 # How to use
-The site so far is pure PHP, so what you'd need is getting yourself a webserver running with PHP support (I use NGINX in Docker). You also need a database, I host the database seperately from my webservers, but together with PHPMyAdmin and connect them using Docker networks. You can find the layout [here](https://ideas.brendongames.com/assets/ideas.sql) until I properly structure repository.
+The site so far is pure PHP, so it's not that complicated. Just download the repo and adjust the example files to your needs. Due to me being to stupid to create a proper Docker image you need to do some things manually. To set up the database you need to import the layout. You can find the layout [here](https://ideas.brendongames.com/assets/ideas.sql). Just be warned that it's a simple project for me, so unless it actually takes off (in my dreams lol) I won't be putting much more effort into the public releases. 
 
 
 # Plans

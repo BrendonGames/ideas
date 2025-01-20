@@ -2,7 +2,7 @@
 
 <head>
     <title>Idea tank</title>
-    <link rel="icon" type="image/x-icon" href="https://cdn.brendongames.com/site/image/favicon.png">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.png">
 
     <script>
         setTimeout(function() {
@@ -105,9 +105,9 @@
             height: auto;
         }
 
-        .editBtn {
+        /* .editBtn {
             
-        }
+        } */
 
         .editImg {
             height: 1.2em;
